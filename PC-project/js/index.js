@@ -6,14 +6,14 @@
 	}
 
 	var myScroll = new IScroll('#execBox', {//？
-	    mouseWheel: true,
-	    scrollbars: true,
+	    mouseWheel: true,//是否监听鼠标滚轮事件 false为不监听 true为监听
+	    scrollbars: true,//是否显示默认滚动条  false为显示  true为不显示
 	    hScroll: false,
 	     probeType: 3
 	});
-	// class类在scrollprobe.js中
+	
 	var centerBoxScroll = new IScroll('#centerBoxScroll', {
-	    mouseWheel: true,//？？？
+	    mouseWheel: true,//是否监听鼠标滚轮事件
 	    hScroll: false//？？？
 	});
 
@@ -21,7 +21,8 @@
 	//在文字部分时   滚动条的显示与隐藏
 	myScroll.on('scrollStart', function () {
 		//滚动条this.indicators[0].indicator
-		console.log(this)
+		//options.indicators	指示IScroll该如何滚动，Scrollbars的底层实现方式。	 
+		//options.indicators.el	制定滚动条的容器。容器中的第一个元素即为指示器。
 		$(this.indicators[0].indicator).animate({
 			opacity: 1
 		}, 500)
@@ -29,6 +30,7 @@
 			$('#header').fadeOut()
 		 }
 	})
+	//制定滚动条的容器。容器中的第一个元素即为指示器
 	myScroll.on('scrollEnd', function () {
 		$(this.indicators[0].indicator).animate({
 			opacity: 0
@@ -43,6 +45,7 @@
 			this.face = $('.face');
 			this.nowIndex = 0;
 			this.setting={
+				//首页展示的图片地址
 				data: [
 				'img/1.jpg',
 				'img/2.jpg',
@@ -50,27 +53,34 @@
 				'img/4.jpg',
 				'img/5.jpg'
 				],
-				len: 12,//?
+				len: 20,
 				bgSize: [tools.winSize().w, tools.winSize().h],//?
 				bgRota: tools.winSize().w / tools.winSize().h,//?
+				//显示 不同的模块 内容不同
 				hideFn: function () {//?
 					return false;
 				},
+				//隐藏 不同的模块 内容不同
 				showFn: function () {//?
 					return false;
 				},
-				isReady: false,	//?
-				title: [//?
+				//是否运动完成
+				isReady: false,	
+				//首页标题框内容
+				title: [
 					'title1',
 					'title2',
 					'title3',
-					'title4'
+					'title4',
+					'title5'
 				],
+				//每个图片的信息
 				infor: [
 					"信息一",
 					'信息二',
 					'信息三',
-					'信息四'
+					'信息四',
+					'信息五'
 				],
 				hash: [//?
 					'#page=executive',
@@ -79,6 +89,7 @@
 					'#page=contact'
 				]
 			},
+			//合并传进啦的每一项
 			this.init();
 		}
 
@@ -107,7 +118,7 @@
 		//生成bg和face的child   divs
 		setLayOut(imgArea){
 			var str = '';
-			for (var i = 0; i < 12; i++) {
+			for (var i = 0; i < this.setting.len; i++) {
 				str += '<div></div>'
 			}
 			imgArea.html(str);
@@ -161,7 +172,7 @@
 				_this.next();
 			}, 5000)
 		}
-		//暂时没用
+		//停止播放
 		stopAutoPlay() {
 			clearInterval(this.timer);
 			this.timer = null;
@@ -381,10 +392,12 @@
 			'img/bg.jpg'
 		],
 		showFn: function () {
-			// console.log(123456)
+
 			centerBoxScroll.scrollTo(0, 0);
 			$('#menuBox').fadeIn(400, function () {
+				//导航菜单显示
 				menuBox.showBox();
+				//可以被点击的状态
 				menuCanTab = true;
 				centerBoxScroll.refresh();
 			});
@@ -414,7 +427,8 @@
 			    }, 0);
 				 
 				  myScroll.on('scroll', function () {
-				  	// console.log(isMobile)
+				  	// this.y 滚动条的 距父级的-top值 
+				  	// this.targetBottom 滚动条距离
 					 if (isMobile) {
 					 	this.targetBottom = this.maxScrollY - 30;
 					 	this.targetTop = 30;
@@ -425,11 +439,10 @@
 					 if (this.y >= -20) {
 						$('#header').fadeIn()
 					 }
-					 console.log(this.y,this.targetBottom)
+					 console.log(this.y,this.targetBottom,this.targetTop)
 					 if(this.y <= (this.targetBottom)+50){
 					 	$('#refrash').fadeIn()
 					 } else {
-					 	 console.log(333)
 					 	$('#refrash').fadeOut()
 					 }
 				  	if (this.y <= (this.targetBottom)) {
@@ -440,6 +453,7 @@
 							downEl = $('#sideBar a').eq(0)
 						}
 						downEl.trigger('click.bar')
+						console.log(123)
 				  	}
 				  	if (this.y >= this.targetTop) {
 				  		if (canTab == false) {return false}
@@ -450,7 +464,7 @@
 						}
 						downEl.trigger('click.bar')
 				  	}
-				  	console.log(1)
+				  	// console.log(1)
 				 });
 
 
@@ -633,7 +647,7 @@
 		$(this).siblings().removeClass('active');
 		$(this).addClass('active');
 		execPage.next(index ,function () {
-
+			console.log('执行了')
 			tabStyle(index);
 			$('#execBox .title').html($(_this).html());
 			$('#execBox .artical').html(data.setLayOut(index));
