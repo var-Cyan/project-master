@@ -8,17 +8,20 @@
 	var myScroll = new IScroll('#execBox', {//？
 	    mouseWheel: true,//是否监听鼠标滚轮事件 false为不监听 true为监听
 	    scrollbars: true,//是否显示默认滚动条  false为显示  true为不显示
-	    hScroll: false,
-	     probeType: 3
+	    hScroll: false,//左右滑动 默认为true 可以滑动   false 不可以滑动
+	     probeType: 3//需要使用iscroll-probe.js才能生效	probeType：1  滚动不繁忙的时候触发
+													  //probeType：2  滚动时每隔一定时间触发
+													  //probeType：3  每滚动一像素触发一次
 	});
 	
 	var centerBoxScroll = new IScroll('#centerBoxScroll', {
 	    mouseWheel: true,//是否监听鼠标滚轮事件
-	    hScroll: false//？？？
+	    hScroll: false//左右滑动 默认为true 可以滑动   false 不可以滑动
 	});
 
 
 	//在文字部分时   滚动条的显示与隐藏
+	//事件 滚动条开始滚动
 	myScroll.on('scrollStart', function () {
 		//滚动条this.indicators[0].indicator
 		//options.indicators	指示IScroll该如何滚动，Scrollbars的底层实现方式。	 
@@ -31,6 +34,7 @@
 		 }
 	})
 	//制定滚动条的容器。容器中的第一个元素即为指示器
+	//事件 滚动条结束滚动
 	myScroll.on('scrollEnd', function () {
 		$(this.indicators[0].indicator).animate({
 			opacity: 0
@@ -50,8 +54,7 @@
 				'img/1.jpg',
 				'img/2.jpg',
 				'img/3.jpg',
-				'img/4.jpg',
-				'img/5.jpg'
+				'img/4.jpg'
 				],
 				len: 20,
 				bgSize: [tools.winSize().w, tools.winSize().h],//?
@@ -68,19 +71,17 @@
 				isReady: false,	
 				//首页标题框内容
 				title: [
-					'title1',
-					'title2',
-					'title3',
-					'title4',
-					'title5'
+					'<img src="./img/title1.png">',
+					'<img src="./img/title2.png">',
+					'<img src="./img/title3.png">',
+					'title4'
 				],
 				//每个图片的信息
 				infor: [
-					"信息一",
-					'信息二',
-					'信息三',
-					'信息四',
-					'信息五'
+					"店名の『しゃにむに』はただひたすら・・懸命に・・・という意味。<br>四季を織り成す素材との一期一会。季節の息吹を懸命に引き出す料理の数々。<br>お客様が大切な方と語らい愉しむ時間を懸命に演出する空間。<br>大切な方との少し贅沢なお時間 都会の喧騒を忘れて・・ごゆるりと。",
+					'貝という魅惑の素材の可能性を引き出す唯一無比の味わいと空間。<br>和洋を織り成すお料理の数々は視覚、香り、食感、余韻、など全身でライブ感を楽しめる。<br>色艶漂うリュクスな空間で・・ ',
+					'上質の鰻を白焼きにして蒸し上げ、門外不出の秘伝のたれで頂く江戸前仕込み<br>日本の伝統をここから世界に',
+					'信息四'
 				],
 				hash: [//?
 					'#page=executive',
@@ -179,6 +180,7 @@
 		}
 		now(callback) {
 
+			console.log(this.currentBg[this.nowIndex])
 			this.face.find('div').css({
 				'background-image': 'url('+ this.currentBg[this.nowIndex] +')',
 			});
@@ -310,7 +312,6 @@
 
 	var setImage = new SetMainImage('#mainImagArea')	
 	var mainIntroBox = new IntroBox('#centerBox .spanBox');
-	// console.log(setImage.setPos())
 
 	// 初始化时 改变showFn和hideFn
 	setImage.init ({
@@ -383,6 +384,10 @@
 	var execPage =  new SetMainImage('#mainImagArea');
 	// 文字的边框盒子
 	var execBox = new IntroBox('#execBox .spanBox');
+	// 联系我页面
+	var contactPage = new SetMainImage('#contactPage');
+	// 联系我box
+	var contactBox = new IntroBox('#contactPage .spanBox');
 
 
 
@@ -412,7 +417,7 @@
 	// 初始化 文字页面
 	execPage.init({
 		data: [
-			'img/bgWhite.jpg',
+			'img/bg2.jpg',
 			'img/bg.jpg'
 		],
 		showFn: function () {
@@ -423,12 +428,14 @@
 				});
 				execBox.showBox();
 				 setTimeout(function () {
+				 	//	刷新IScroll
 			        myScroll.refresh();
 			    }, 0);
 				 
 				  myScroll.on('scroll', function () {
 				  	// this.y 滚动条的 距父级的-top值 
 				  	// this.targetBottom 滚动条距离
+				  	// 滚动到底部时的 this.maxScrollY
 					 if (isMobile) {
 					 	this.targetBottom = this.maxScrollY - 30;
 					 	this.targetTop = 30;
@@ -478,6 +485,30 @@
 		}
 	});
 
+
+
+	// 初始化contact页面的内容
+	// 把canract对应的页面数据 及 函数 替换一下
+	contactPage.init({//-
+		data: [
+			'img/bg2.jpg'
+		],
+		showFn: function () {
+			menuCanTab = true;
+			$('#contactPage').fadeIn(function () {
+				contactBox.showBox();
+				centerBoxScroll.scrollTo(0, 0);
+				centerBoxScroll.refresh()
+			})
+		},
+		hideFn: function (title, infor) {
+			$('#contactPage').fadeOut(800);
+			contactBox.hideBox();
+			$('#menuBox').fadeOut(600);
+		}
+	});
+
+
 	// 头部的点击事件
 	$('#header').on('click.menu touchstart', '.menu', function () {
 		// 如果menuCanTab为假  则热跳出函数
@@ -498,7 +529,7 @@
 		targetHash = 'main';
 	})
 
-	//点击menu的a的事件   以内是a 所以a  所以自带herf
+	//点击menu的a的事件  自带herf
 	$('#menuBox nav a').click(function () {
 		var _this = this;
 		$('#menuBox nav a').removeClass('active');
@@ -549,21 +580,23 @@
 			case 'executive' :
 				mainAreaChange.in(pageData, 'executive')
 				break;
-			// case 'ad' :
-			// 	mainAreaChange.in(pageData1, 'ad')
-			// 	break;
-			// case 'suc' :
-			// 	mainAreaChange.in(pageData2, 'suc')
-			// 	break;
-			// case 'contact' :
-			// 	$('.menu').removeClass('sonStyle');
-			// 	nowHash = 'contact';
-			// 	contactPage.now();
-			// 	$('#sideImg').fadeIn(1000);
-			// 	window.location.hash = '';
-			// 	targetHash = 'menu';
-			// default:
-			// 	break;
+			case 'ad' :
+				mainAreaChange.in(pageData1, 'ad')
+				break;
+			case 'suc' :
+				mainAreaChange.in(pageData2, 'suc')
+				break;	
+
+
+			case 'contact' :
+				$('.menu').removeClass('sonStyle');
+				nowHash = 'contact';
+				contactPage.now();
+				$('#sideImg').fadeIn(1000);
+				// window.location.hash = '';
+				targetHash = 'menu';
+			default:
+				break;
 		}
 		
 
@@ -586,20 +619,22 @@
 			case 'executive':
 				mainAreaChange.out('executive');
 				break;
-			// case 'suc':
-			// 	mainAreaChange.out('suc');
-			// 	break;
-			// case 'ad':
-			// 	mainAreaChange.out('ad');
-			// 	break;
-			// case 'contact': {
-			// 	menuPage.now();
-			// 	contactBox.hideBox();
-			// 	$('#contactPage').fadeOut(800);
-			// 	$('#sideImg').fadeOut();
-			// 	targetHash = 'contact';
-			// 	break;
-			// }
+			case 'ad':
+				mainAreaChange.out('ad');
+				break;
+			case 'suc':
+				mainAreaChange.out('suc');
+				break;
+
+			case 'contact': {
+				console.log(456)
+				menuPage.now();
+				contactBox.hideBox();
+				$('#contactPage').fadeOut(800);
+				$('#sideImg').fadeOut();
+				targetHash = 'contact';
+				break;
+			}
 			// default:
 			// 	// statements_def
 			// 	break;
@@ -636,7 +671,7 @@
 		setImage.rePos()
 	})
 
-		// sideBar 的功能实现
+		// sideBar 的功能实现 小圆点
 
 	$('#sideBar').on('click.bar', 'a', function (ev) {
 		var _this = this;
@@ -647,7 +682,7 @@
 		$(this).siblings().removeClass('active');
 		$(this).addClass('active');
 		execPage.next(index ,function () {
-			console.log('执行了')
+
 			tabStyle(index);
 			$('#execBox .title').html($(_this).html());
 			$('#execBox .artical').html(data.setLayOut(index));
@@ -657,7 +692,7 @@
 
 		});
 	})
-
+//显示不同的背景及对应的样式
 	function tabStyle (index) {
 		index%=2;
 		if(!index) {

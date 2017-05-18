@@ -38,7 +38,8 @@ class DealData {
 				str += '<h2>'+ target.con[i].h +'</h2>'
 			}
 			for (var j = 0; j < target.con[i].p.length; j++) {
-				str += '<p>'+ target.con[i].p[j] +'</p>'
+				// str += '<span>'+ target.con[i].p[j] +'</span>'
+				str +='<span><img src="'+target.con[i].p[j]+'"></span>'
 			}
 			str += '</div>'
 		}
