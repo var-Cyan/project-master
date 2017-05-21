@@ -381,6 +381,8 @@ html {
   position: absolute;
   width: 35px;
   height: 35px;
+  left:0;
+  top:0;
   transition: 0.5s;
   background: rgba(40, 221, 224, 0.8);
   border-radius: 50%;
@@ -846,6 +848,9 @@ html {
     width:100%;
     /*margin-left:10%;*/
     font-size: 15px;
+    /*text-indent: 2em;*/
+    text-align: center;
+    line-height: 25px;
   }
 
   .spanBox span {

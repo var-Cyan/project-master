@@ -37,10 +37,21 @@ class DealData {
 			if (target.con[i].h) {
 				str += '<h2>'+ target.con[i].h +'</h2>'
 			}
-			for (var j = 0; j < target.con[i].p.length; j++) {
-				// str += '<span>'+ target.con[i].p[j] +'</span>'
-				str +='<span><img src="'+target.con[i].p[j]+'"></span>'
+			
+			if(target.con[i].img){
+				for (var j = 0; j < target.con[i].img.length; j++) {
+					// str += '<span>'+ target.con[i].p[j] +'</span>'
+					str +='<span><img src="'+target.con[i].img[j]+'"></span>'
+				}
+			}else{
+				for (var k = 0; k < target.con[i].p.length; k++) {
+					str += '<p>'+ target.con[i].p[k] +'</p>'
+				}
 			}
+			// if(target.con[i].p.length!=0){
+				
+			// }
+			
 			str += '</div>'
 		}
 		return str;
