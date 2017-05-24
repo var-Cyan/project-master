@@ -48,9 +48,6 @@ class DealData {
 					str += '<p>'+ target.con[i].p[k] +'</p>'
 				}
 			}
-			// if(target.con[i].p.length!=0){
-				
-			// }
 			
 			str += '</div>'
 		}

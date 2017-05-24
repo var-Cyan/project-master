@@ -1,8 +1,44 @@
-	
-	//是不是移动端 
+	//控制音乐播放
+	var music=$('#music')
+	$('#musicBox').on(
+		'click touchstart',
+		function(){
+			$(this).toggleClass('move')
+			if(!window.onoff){
+				music[0].pause()
+			}else{
+				music[0].play()
+			}
+			window.onoff = !window.onoff
+		}
+	)
+	//验证是不是移动端 
 	var isMobile = false;
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
 	　　isMobile = true;
+	}
+
+	// 阻止移动端默认事件
+	document.addEventListener('touchmove', function (ev) {
+		ev.preventDefault();
+	})
+
+	//如果是移动端的情况下
+	//如果花瓶时点击的是a标签 判断是点击还是滑屏
+	if (isMobile) {
+		var target, old;
+		$('a').on('touchstart', function (ev) {
+			target = ev.target;
+			$('a').on('touchmove', function (ev) {
+				target = null;
+			});
+			$('a').on('touchend', function (ev) {
+				old = ev.target;
+				if (target == old) {
+					window.location = this.href;
+				}
+			})
+		})
 	}
 
 	var myScroll = new IScroll('#execBox', {//？
@@ -43,7 +79,7 @@
 	//主页
 	class SetMainImage{
 		constructor(id){
-			// console.log($('body')[0])
+
 			this.obj = $(id);
 			this.bg = $('.bg');
 			this.face = $('.face');
@@ -51,14 +87,14 @@
 			this.setting={
 				//首页展示的图片地址
 				data: [
-				'img/1.jpg',
-				'img/2.jpg',
-				'img/3.jpg',
-				'img/4.jpg'
+				'img/1.png',
+				'img/2.png',
+				'img/3.png',
+				'img/4.png'
 				],
 				len: 20,
-				bgSize: [tools.winSize().w, tools.winSize().h],//?
-				bgRota: tools.winSize().w / tools.winSize().h,//?
+				bgSize: [1920, 1200],//?
+				bgRota: 1920 / 1200,//?
 				//显示 不同的模块 内容不同
 				hideFn: function () {//?
 					return false;
@@ -142,7 +178,6 @@
 
 			//当_parHeight*this.setting.bgRota > _parWidth时  width改变 需要重新获取宽度
 			if (_parHeight*this.setting.bgRota > _parWidth) {
-				document.title='111'
 				imgArea.css({
 					
 					'min-width':_parHeight*this.setting.bgRota
@@ -180,14 +215,13 @@
 		}
 		now(callback) {
 
-			console.log(this.currentBg[this.nowIndex])
 			this.face.find('div').css({
 				'background-image': 'url('+ this.currentBg[this.nowIndex] +')',
 			});
 			this.showImage(callback);
 		}
 		next(index, callback) {
-			// console.log(11)
+
 			this.nowIndex ++;
 			if (typeof index == 'function') {
 				callback = index;
@@ -197,7 +231,7 @@
 			// this.setting.isReady = false;
 			
 			this.nowIndex %= this.currentBg.length;
-			// console.log(this.nowIndex)
+
 			this.face.find('div').css({
 				'background-image': 'url('+ this.currentBg[this.nowIndex] +')',
 			});
@@ -208,7 +242,7 @@
 			if (this.nowIndex < 0) {
 				this.nowIndex = this.currentBg.length-1;
 			}
-			// console.log(this.nowIndex)
+
 			this.face.find('div').css({
 				'background-image': 'url('+ this.currentBg[this.nowIndex] +')',
 			});
@@ -217,10 +251,15 @@
 		showImage(callback) {
 			this.setting.isReady = true;
 			var _this = this;
+			
 			this.face.find('div').each(function (i, e) {
 				setTimeout(function (i) {
-					mTween(e, {top: 0, opacity: 100}, 800, 'easeOut', function () {
+
+					// $(e).transition({translate: [0,0], opacity: 100}, 800, 'out', function()
+					mTween(e, {translateY: 0, opacity: 100}, 500, 'easeOut', function () {
+
 						if (i == 11) {
+
 							// 当最后一块运动完成后 把上下运动的div恢复到应有的位置高度
 							_this.hideImage();
 							//恢复到应有的位置之后 透明度为0
@@ -261,11 +300,13 @@
 			this.face.find('div').each(function(i, e){
 				// let写可能有问题
 				let dir = i%2 == 0 ? 1 : -1;
-				$(e).css ({
-					top:( dir * (tools.winSize().h * 0.4) * i/12 + dir * (tools.winSize().h * 0.2))
-				})
+				/*$(e).css ({
+					translate:[0,( dir * (tools.winSize().h * 0.4) * i/12 + dir * (tools.winSize().h * 0.2))]
+				})*/
+				setTransform(e,'translateY',( dir * (tools.winSize().h * 0.4) * i/12 + dir * (tools.winSize().h * 0.2)) )
 			});
-
+			
+			
 			if(typeof this.setting.showFn==='function'){
 				this.setting.showFn();
 			}
@@ -296,8 +337,10 @@
 		}
 		//让主屏文字及信息显示隐藏
 		hideBox(fn) {
+
 			// spanBox透明度800ms变为0
 			this.obj.fadeOut(800, function () {
+
 				fn && fn();
 			});
 			// 内部的span的宽高为0
@@ -389,15 +432,16 @@
 	// 联系我box
 	var contactBox = new IntroBox('#contactPage .spanBox');
 
+	var canTab = false;
+
 
 
 	// 初始化   把 导航页的 shouFn  和 hideFn 替换一下
 	menuPage.init({
 		data: [
-			'img/bg.jpg'
+			'img/bg.png'
 		],
 		showFn: function () {
-
 			centerBoxScroll.scrollTo(0, 0);
 			$('#menuBox').fadeIn(400, function () {
 				//导航菜单显示
@@ -417,8 +461,8 @@
 	// 初始化 文字页面
 	execPage.init({
 		data: [
-			'img/bg2.jpg',
-			'img/bg.jpg'
+			'img/bg2.png',
+			'img/bg.png'
 		],
 		showFn: function () {
 			menuCanTab = true;
@@ -446,7 +490,7 @@
 					 if (this.y >= -20) {
 						$('#header').fadeIn()
 					 }
-					 console.log(this.y,this.targetBottom,this.targetTop)
+
 					 if(this.y <= (this.targetBottom)+50){
 					 	$('#refrash').fadeIn()
 					 } else {
@@ -460,7 +504,7 @@
 							downEl = $('#sideBar a').eq(0)
 						}
 						downEl.trigger('click.bar')
-						console.log(123)
+
 				  	}
 				  	if (this.y >= this.targetTop) {
 				  		if (canTab == false) {return false}
@@ -471,14 +515,14 @@
 						}
 						downEl.trigger('click.bar')
 				  	}
-				  	// console.log(1)
+
 				 });
 
 
 			})
 		},
 		hideFn: function (title, infor) {
-			// console.log(555)
+
 			$('#execBox').fadeOut(800);
 			execBox.hideBox();
 			$('#menuBox').fadeOut(600);
@@ -491,7 +535,7 @@
 	// 把canract对应的页面数据 及 函数 替换一下
 	contactPage.init({//-
 		data: [
-			'img/bg2.jpg'
+			'img/bg2.png'
 		],
 		showFn: function () {
 			menuCanTab = true;
@@ -530,7 +574,7 @@
 	})
 
 	//点击menu的a的事件  自带herf
-	$('#menuBox nav a').click(function () {
+	$('#menuBox nav a').on('click touchstart',function () {
 		var _this = this;
 		$('#menuBox nav a').removeClass('active');
 		$(this).addClass('active');
@@ -543,17 +587,16 @@
 
 	// 当hash变化时触发的事件
 	window.onhashchange = function () {
-
 	//获取hash值 根据不同的hash值  进行不同的事件
 		var hash = $.getHash();
-// console.log(window.location.hash)
+
 		switch (hash) {
 			case 'menu':
 				//把背景变为紫色
 				$('#mainImagArea').addClass('bgBlue');
 				//menu的背景变为青色
 				$('.menu').addClass('sonStyle');
-				// console.log(hash,nowHash)
+
 				backMenu();
 				nowHash = 'menu';
 				// window.location.hash = '';
@@ -564,6 +607,7 @@
 				// 青色背景去掉
 				$('.menu').removeClass('sonStyle');
 				// menu导航盒子隐藏
+
 				menuBox.hideBox();
 				nowHash = 'main';
 				$('#menuBox').fadeOut(600,function () {
@@ -606,6 +650,7 @@
 	// 由于 menu 功能指向具有多样性，所以单独使用一个方法，进行区分
 
 	function backMenu () {
+
 		switch (nowHash) {
 			case 'main':
 				//停止自动播放
@@ -613,8 +658,9 @@
 				//换背景 ，让其显示
 				//并且让menu的spanbox也显示了出来
 				menuPage.now();
+				// window.location.hash = '';
 				targetHash = 'main';
-				// console.log(789)
+				
 				break;
 			case 'executive':
 				mainAreaChange.out('executive');
@@ -627,8 +673,9 @@
 				break;
 
 			case 'contact': {
-				console.log(456)
+
 				menuPage.now();
+
 				contactBox.hideBox();
 				$('#contactPage').fadeOut(800);
 				$('#sideImg').fadeOut();
@@ -644,7 +691,7 @@
 //
 	var mainAreaChange = {//-
 		in: function (mainData, newHash) {
-			// console.log(newHash)
+
 			data = new DealData(mainData);
 			$('#execBox .title').html(data.getTitle()[0]);
 			$('#sideBar').html(data.setTitle())
@@ -654,6 +701,7 @@
 			execPage.now();
 			// window.location.hash = '';
 			targetHash = 'menu';
+
 		},
 		out: function (nextHash) {
 			menuPage.now();
@@ -668,8 +716,48 @@
 
 	//当窗口大小调整的时候，调整背景相关设置
 	$(window).on('resize', function () {
-		setImage.rePos()
+				switch (nowHash) {
+			case 'menu':
+				menuPage.rePos();
+				break;
+			case 'main':
+				setImage.rePos();
+				break;
+			case 'executive':
+			case 'suc':
+			case 'ad':
+				execPage.rePos();
+				break;
+			case 'contact':
+				contactPage.rePos();
+				break;
+			default:
+				break;
+		}
 	})
+
+	window.addEventListener("orientationchange", function() {
+		window.location.href = window.location.href;
+		switch (nowHash) {
+			case 'menu':
+
+				menuPage.rePos();
+				break;
+			case 'main':
+				setImage.rePos();
+				break;
+			case 'executive':
+			case 'suc':
+			case 'ad':
+				execPage.rePos();
+				break;
+			case 'contact':
+				contactPage.rePos();
+				break;
+			default:
+				break;
+		}
+	}, false);
 
 		// sideBar 的功能实现 小圆点
 
@@ -682,10 +770,9 @@
 		$(this).siblings().removeClass('active');
 		$(this).addClass('active');
 		execPage.next(index ,function () {
-
+			// data = new DealData(pageData);
 			tabStyle(index);
 			$('#execBox .title').html($(_this).html());
-			console.log(111)
 			$('#execBox .artical').html(data.setLayOut(index));
 			myScroll.scrollTo(0, 0);
 			$('#refrash').fadeOut()

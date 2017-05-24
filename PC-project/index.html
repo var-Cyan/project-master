@@ -3,6 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title></title>
+	<meta name="viewport" content="width = device-width, user-scalable = no, initial-scale = 1, minimum-scale = 1, maximum-scale = 1,minimal-ui">
+	<meta name="full-screen" content="yes" />
+	<meta name="x5-fullscreen" content="true" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<link rel="stylesheet" type="text/css" href="./css/index.css">
 
 </head>
@@ -10,7 +14,7 @@
 <div id="wrap">
 	<header id="header">
 		<a class="log" href="index.html">
-			<img src="img/logo_color_476_180.jpg" alt="">
+			<img src="img/logo.png" alt="">
 		</a>
 		<div class="menu">
 			<div class="ico">
@@ -47,7 +51,7 @@
 				<span></span>
 				<span></span>
 			</div>
-			<h1 id="title">HTML</h1>
+			<h1 id="title"><img src="./img/title1.png"></h1>
 			<section id="intro">
 				<a href="#executive">
 				<span class="joinIco">
@@ -56,7 +60,7 @@
 					<i></i>
 				</span>
 				</a>
-				<p>Dramatically improves business performance outcomes by effectively leveraging people, processes, and technology</p>
+				<p>对于很无厘头的店名会起到吸引顾客的作用。<br>这种以四季为素材的料理对于客人来说可能一生只能遇到这一次。本店努力做出能够符合每个季节的料理。<br>顾客在本店能够有充足的娱乐空间和演出活动空间。<br>最重要的是客人在本店会忘记时间，充分享受用餐带来的快乐。</p>
 			</section>
 		</div>
 	</section>
@@ -71,10 +75,10 @@
 			<span></span>
 		</div>
 		<nav>
-			<a href="#page=main" class="active">Japanese Cuisine Boutique</a>
-			<a href="#page=executive">Japanese Cuisine Boutique</a>
-			<a href="#page=ad">Japanese Dietary Culture</a>
-			<a href="#page=suc">Three characteristics of Japanese dietary culture</a>
+			<a href="#page=main" class="active">主页</a>
+			<a href="#page=executive">日本料理精品店</a>
+			<a href="#page=ad">日本饮食文化</a>
+			<a href="#page=suc">日本饮食文化三大特色</a>
 			<!-- <a href="javascript:;">About Us</a> -->
 			<a href="#page=contact">Contact Us</a>
 		</nav>
@@ -99,19 +103,22 @@
 		<section class="artical">
 			<div></div>
 			<div>
-				<h2>New Jersey Office</h2>
+				<h2>My Information</h2>
 				<nav>
-					<span>(973) 782-9130</span><br/>
-					<span>info@adisonpartners.com</span><br/>
-					<span>Address: 6 Campus Drive, 2nd floor Parsippany NJ 07054</span><br/>
+					<a target="_blank" href="javascript:;"><span class="Information">Name:</span>刘先辉</a><br/>
+					<a href="javascript:;"><span class="Information">Tell:</span>186-1024-2457</a><br/>
+					<a href="javascript:;"><span class="Information">Email:</span>295272610@qq.com</a><br/>
+					<a href="javascript:;"><span class="Information">Address:</span>BeiJing</a><br/>
+					<a href="https://github.com/var-Cyan"><span class="Information">Git:</span>https://github.com/var-Cyan</a><br/>
+
 				</nav>
 			</div>
-			<div>
+			<div id="contactWay">
 				<h2>Social Media</h2>
 				<nav>
-					<a href="javascript:;">a</a>
-					<a href="javascript:;">b</a>
-					<a href="javascript:;">c</a>
+					<a target="_blank" title="https://github.com/var-Cyan" href="https://github.com/var-Cyan" class="github"></a>
+					<a title="295272610@qq.com" href="javascript:;" class="email"></a>
+					<a title="295272610" href="javascript:;" class="qq"></a>
 				</nav>
 			</div>
 		</section>
@@ -195,7 +202,13 @@
 		<span></span>
 	</div>
 </div>
+<div id="musicBox" class="move">
+	<img src="./img/music.png">
+	<audio src="./mp3/Because of You.mp3" id="music" loop autoplay></audio>
+</div>
+	
 	<script src="./js/jquery-3.2.0.js"></script>
+	<script src="./js/jquery.transit.js"></script>
 	<script src="./js/jquery.tools.js"></script>
 	<script src="./js/tools.js"></script>
 	<script src="./js/data.js"></script>
