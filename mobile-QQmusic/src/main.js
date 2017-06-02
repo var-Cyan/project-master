@@ -4,7 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 require('./assets/css/app.css')
-
+import resource from 'vue-resource'
+Vue.use(resource)
 // import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 // Vue.use(MintUI)

@@ -4,10 +4,10 @@
         <div class="playCon">
             <p>QQ音乐</p>
             <div class="playBtns">
-                <span class="prev"></span>
-                <span class="play"></span>
-                <span class="next"></span>
-                <span class="playList"></span>
+                <span class="prev icon-backward"></span>
+                <span class="play icon-play"></span>
+                <span class="next icon-forward"></span>
+                <span class="playList icon-list"></span>
             </div>
         </div>
     </footer>
@@ -20,10 +20,10 @@
 <style lang="less" scoped>
     @rem:24rem;
     #footer{
-        position: absolute;
+        position: fixed;
         width:100%;
         height:70/@rem;
-        background:#f00056;
+        background:#00e09e;
         bottom:0;
         left:0;
         display: flex;
@@ -51,11 +51,13 @@
                 display: flex;
                 align-items:center;
                 justify-content: space-around;
-
+                text-align: center;
+                span:before{
+                    line-height: 30/@rem;
+                }
                 span{
                     width:30/@rem;
                     height:30/@rem;
-                    background:#666666;
                 }
             }
         }

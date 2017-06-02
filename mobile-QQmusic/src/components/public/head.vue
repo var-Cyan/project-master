@@ -6,9 +6,9 @@
             </h1>
         </header>
             <nav>
-                <router-link to="/recommend" class="active">推荐</router-link>
-                <router-link to="/rankingList" >排行榜</router-link>
-                <router-link to="/search" >搜索</router-link>
+                <router-link to="/recommend" :class="$route.path==='/'? 'active':'' " active-class="active">推荐</router-link>
+                <router-link to="/rankingList" active-class="active">排行榜</router-link>
+                <router-link to="/search" active-class="active">搜索</router-link>
             </nav>
     </section>
 </template>

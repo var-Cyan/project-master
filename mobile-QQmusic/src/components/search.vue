@@ -3,32 +3,90 @@
         <div class="pageContant">
             <div id="searchBar">
                 <div id="inputWrap">
-                    <from id="searchFrom"  method="get">
+                    <form id="searchFrom"  method="get">
                         <input type="search" placeholder="搜索歌曲、歌单、专辑" class="searhInput">
                         <span class="iconSearch">搜索</span>
                         <span class="iconDel">删除</span>
-                    </from>
+                    </form>
                 </div>
                 <div class="searchCancel">取消</div>
             </div>
-            <div id="hotKey">
+            <div id="hotKey" v-show="!searchList.length">
                 <h3>热门搜索</h3>
-                <nav>
-                    <a href="javascript:;" class="hot">薛之谦</a>
-                    <a href="javascript:;">音乐带我解脱 邓伦 </a>
-                    <a href="javascript:;">爱的可能 </a>
-                    <a href="javascript:;">THERE FOR YOU </a>
-                    <a href="javascript:;">我的一个道姑朋友 </a>
-                    <a href="javascript:;">皇朝中我指鹿为马 </a>
-                    <a href="javascript:;">你就不要想起我 </a>
-                </nav>
+                <ul v-if='date'>
+                    <li class="hot"><a :href="date.special_url">{{date.special_key}}</a></li>
+                    <li v-for="val,i in date.hotkey" v-if="i < 9" @click='hotSearch(val.k)'>{{val.k}}</li>
+                </ul>
             </div>
+            <ul id="searchResult" v-show="searchList.length">
+                <li v-for="val,i in searchList">
+                    <span>
+                        <img :src="val.img" alt="">
+                    </span>
+                    <h3>
+                        {{val.name}}
+                    </h3>
+                    <p>
+                        {{val.singer}}
+                    </p>
+                </li>
+            </ul>
         </div>
     </div>
 </template>
 <script>
+    import BetterScroll from "better-scroll"
     export default{
+        data(){
+            return {
+                //获取的所有数据
+                date:null,
+                text:'',
+                searchList:[]
+            }
+        },
+        mounted(){
+            this.scrollRefresh()
 
+            let url = 'https://c.y.qq.com/splcloud/fcgi-bin/gethotkey.fcg?format=jsonp'
+            this.$http.jsonp(url,{jsonp:"jsonpCallback"}).then(res => {
+            this.date = res.body.data
+            })
+        },
+        updated(){
+           this.scrollRefresh()
+        },
+        methods:{
+            hotSearch(val){
+                this.searchList = [];
+                val?this.text = val:''
+                let url = `https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp?format=jsonp&n=20&w=${val||this.text}`
+                this.$http.jsonp(url,{jsonp:"jsonpCallback"}).then(res => {
+                    res.body.data.song.list.forEach(val => {
+                        this.searchList.push({name:val.songname,
+                            img:"https://y.gtimg.cn/music/photo_new/T002R150x150M000"+val.albummid+".jpg?max_age=2592000",
+                            songid:val.songid,
+                            singer:val.singer[0].name})
+                    });
+                })
+            },
+            scrollRefresh(){
+                let scroll=null;
+                this.$nextTick( ()=>{
+                    let wrapBox=document.getElementById('wrapBox');
+                    scroll = new BetterScroll(wrapBox,{
+                        startX:0,
+                        startY:0,
+                        click:true,//
+                        momentum:true,//惯性效果
+                        bounce:true,//回弹效果
+                        deceleration:0.003//加速度效果
+                    })
+                })
+            }
+
+            
+        }
     }
 </script>
 <style lang="less">
@@ -131,10 +189,10 @@
             line-height: 21/@rem;
             font-weight: bold;
         }
-        nav{
+        ul{
             display: flex;
             flex-wrap:wrap;
-                a{
+                li{
                     font-size: 14/@rem;
                     padding: 0 10/@rem;
                     height: 30/@rem;
@@ -145,12 +203,48 @@
                     word-break: keep-all;
                     margin-bottom: 10/@rem;
                     margin-right: 14/@rem;
+                    a{  
+                        color: #fc4524;
+                    }
                 }
-                a.hot{
-                    color: #fc4524;
+                li.hot{
                     border-color: #fc4524;
                 }
         }
     }
+    #searchResult{
+        // background: #00bbff;
+        li{
+            position: relative;
+            height: 55/@rem;
+            padding-left: 56/@rem;
+            overflow: hidden;
+            span{
+                    position: absolute;
+                    top: 8/@rem;
+                    left: 8/@rem;
+                    width: 40/@rem;
+                    height: 40/@rem;
+                    img{
+                        width: 100%;
+                    }
+            }
+            h3{
+                margin: 10/@rem 0 2/@rem;
+                line-height: 18/@rem;
+                font-size: 16/@rem;
+                font-weight: normal;
+                color: #000;
+            }
+            p{
+                color: #808080;
+                height:18/@rem;
+                line-height: 18/@rem;
+                font-size: 12/@rem;
+            }
+
+        }
+    }
+
 
 </style>

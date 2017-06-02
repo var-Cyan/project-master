@@ -2,129 +2,91 @@
     <div id="wrapBox">
         <div class="pageContant">
             <swipe :auto="4000" id="swipe-wrap">
-                <swipe-item v-for="(item,index) in data" :key="index">
-                    <img :src="item" alt="">
+                <swipe-item v-for="(item,index) in slider" :key="item.id">
+                    <a :href="item.linkUrl"><img :src="item.picUrl" alt=""></a>
                 </swipe-item>
             </swipe>
-            <div id="radioStation">
+            <div id="radioStation" class="common">
                 <h2>电台</h2>
                 <ul>
-                    <li>
+                    <li v-for="(item,index) in radioList" :key="item.id">
                         <a href="javascript:;">
                             <span class="stationPic">
-                                <img src="../../static/img/radioStation1.jpg">
+                                <img :src="item.picUrl">
                                 <span class="stationIcon iconPlay"></span>
                             </span>
                             <span class="stationText">
-                                    一人一首招牌歌
+                                    {{item.Ftitle}}
                             </span>
                         </a>
                     </li>
-                    <li>
+                </ul>
+            </div>
+            <div id="hotSong" class="common">
+                <h2>热门歌曲</h2>
+                <ul>
+                    <li v-for="(item,index) in hotSong" :key="item.id">
                         <a href="javascript:;">
                             <span class="stationPic">
-                                <img src="../../static/img/radioStation2.jpg">
-                                <span class="iconPlay"></span>
+                                <img :src="item.picUrl">
+                                <span class="stationIcon iconPlay"></span>
                             </span>
                             <span class="stationText">
-                                    热歌
+                                {{item.songListDesc}}
                             </span>
                         </a>
                     </li>
-                      <li>
-                        <a href="javascript:;">
-                            <span class="stationPic">
-                                <img src="../../static/img/radioStation2.jpg">
-                                <span class="iconPlay"></span>
-                            </span>
-                            <span class="stationText">
-                                    热歌
-                            </span>
-                        </a>
-                    </li>
-                      <li>
-                        <a href="javascript:;">
-                            <span class="stationPic">
-                                <img src="../../static/img/radioStation2.jpg">
-                                <span class="iconPlay"></span>
-                            </span>
-                            <span class="stationText">
-                                    热歌
-                            </span>
-                        </a>
-                    </li>
-                      <li>
-                        <a href="javascript:;">
-                            <span class="stationPic">
-                                <img src="../../static/img/radioStation2.jpg">
-                                <span class="iconPlay"></span>
-                            </span>
-                            <span class="stationText">
-                                    热歌
-                            </span>
-                        </a>
-                    </li>
-                      <li>
-                        <a href="javascript:;">
-                            <span class="stationPic">
-                                <img src="../../static/img/radioStation2.jpg">
-                                <span class="iconPlay"></span>
-                            </span>
-                            <span class="stationText">
-                                    热歌
-                            </span>
-                        </a>
-                    </li>
-                      <li>
-                        <a href="javascript:;">
-                            <span class="stationPic">
-                                <img src="../../static/img/radioStation2.jpg">
-                                <span class="iconPlay"></span>
-                            </span>
-                            <span class="stationText">
-                                    热歌
-                            </span>
-                        </a>
-                    </li>
-                      <li>
-                        <a href="javascript:;">
-                            <span class="stationPic">
-                                <img src="../../static/img/radioStation2.jpg">
-                                <span class="iconPlay"></span>
-                            </span>
-                            <span class="stationText">
-                                    热歌
-                            </span>
-                        </a>
-                    </li>
-                    
                 </ul>
             </div>
         </div>
-       
-       
     </div>
 </template>
 <script>
     import {Swipe,SwipeItem} from 'mint-ui'
-
-    let data=[
-        '/static/img/banner1.jpg',
-        '/static/img/banner2.jpg',
-        '/static/img/banner3.jpg',
-        '/static/img/banner4.jpg',
-        '/static/img/banner5.jpg'
-    ]
-
+    import BetterScroll from "better-scroll"
     export default{
         data(){
             return {
-                data:data
+                //轮播图
+                slider:[],
+                //电台列表
+                radioList:[],
+                //热门歌曲
+                hotSong:[]
             }
         },
         components:{
             Swipe,
             SwipeItem
+        },
+        mounted(){
+
+            let url="https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg?g_tk=5381&uin=0&format=jsonp&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&_=1492177982521"
+            this.$http.jsonp(url,{jsonp:'jsonpCallback'}).then(d=>{
+                this.slider=d.body.data.slider;
+                this.radioList=d.body.data.radioList;
+                this.hotSong=d.body.data.songList;
+            })
+            this.scrollRefresh()
+        },
+        updated(){
+           this.scrollRefresh()
+        },
+        methods:{
+            scrollRefresh(){
+                let scroll=null;
+                this.$nextTick( ()=>{
+                    let wrapBox=document.getElementById('wrapBox');
+                    scroll = new BetterScroll(wrapBox,{
+                        startX:0,
+                        startY:0,
+                        click:true,//
+                        momentum:true,//惯性效果
+                        bounce:true,//回弹效果
+                        deceleration:0.003//加速度效果
+                    })
+                })
+            }
         }
     }
 </script>
@@ -155,8 +117,8 @@
                 }
             }
          }
-         #radioStation{
-             margin:0 10/@rem 7/@rem 10/@rem;
+         .common{
+             margin:0 10/@rem 10/@rem 10/@rem;
              h2{
                 height:24/@rem;
                 margin-bottom:14/@rem;
@@ -210,7 +172,7 @@
                  }
              }
          }
+         #hotSong{
 
-
-
+         }
 </style>

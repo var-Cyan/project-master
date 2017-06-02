@@ -2,167 +2,76 @@
     <div id="wrapBox">
         <div class="pageContant">
             <ul id="rankingList">
-                <li class="ListOfCharts">
-                    <a href="javascript:;">
-                        <img src="../../static/img/toplist1.jpg" alt="">
+                <router-link tag="li" :to="{ name: 'topList', params: { id: val.id }}" class="ListOfCharts" v-for="(val,index) in topList" :key="val.id">
+                    <div class="ListPic">
+                        <img :src="val.picUrl">
                         <span class="listenCount">
                             <i class="iconListen"></i>
-                            1940.0万
+                            {{(val.listenCount/10000).toFixed(1)}}万
                         </span>
-                    </a>
-                    <div>
+                    </div>
+                    <div class="ListName">
                         <div id="rankListTextBox">
-                            <h3 class="abbreviation">巅峰榜·福特新蒙迪欧·流行指数</h3>
+                            <h3 class="abbreviation">{{val.topTitle}}</h3>
                             <ol>
-                                <li><p>1<span>望</span>- 张碧晨/赵丽颖</p></li>
-                                <li><p>2<span>BLING BLING</span>- iKON (아이콘)</p></li>
-                                <li><p>3<span>最初的记忆</span>- 徐佳莹</p></li>
+                                <li v-for="(value,index) in val.songList"><p class="abbreviation">{{index+1}} <span>{{value.songname}}</span> - {{value.singername}}</p></li>
                             </ol>
                         </div>
                         <i></i>
                     </div>
-                </li>
-                <li class="ListOfCharts">
-                    <a href="javascript:;">
-                        <img src="../../static/img/toplist1.jpg" alt="">
-                        <span class="listenCount">
-                            <i class="iconListen"></i>
-                            1940.0万
-                        </span>
-                    </a>
-                    <div>
-                        <div id="rankListTextBox">
-                            <h3 class="abbreviation">巅峰榜·福特新蒙迪欧·流行指数</h3>
-                            <ol>
-                                <li><p>1<span>望</span>- 张碧晨/赵丽颖</p></li>
-                                <li><p>2<span>BLING BLING</span>- iKON (아이콘)</p></li>
-                                <li><p>3<span>最初的记忆</span>- 徐佳莹</p></li>
-                            </ol>
-                        </div>
-                        <i></i>
-                    </div>
-                </li>
-                <li class="ListOfCharts">
-                    <a href="javascript:;">
-                        <img src="../../static/img/toplist1.jpg" alt="">
-                        <span class="listenCount">
-                            <i class="iconListen"></i>
-                            1940.0万
-                        </span>
-                    </a>
-                    <div>
-                        <div id="rankListTextBox">
-                            <h3 class="abbreviation">巅峰榜·福特新蒙迪欧·流行指数</h3>
-                            <ol>
-                                <li><p>1<span>望</span>- 张碧晨/赵丽颖</p></li>
-                                <li><p>2<span>BLING BLING</span>- iKON (아이콘)</p></li>
-                                <li><p>3<span>最初的记忆</span>- 徐佳莹</p></li>
-                            </ol>
-                        </div>
-                        <i></i>
-                    </div>
-                </li>
-                <li class="ListOfCharts">
-                    <a href="javascript:;">
-                        <img src="../../static/img/toplist1.jpg" alt="">
-                        <span class="listenCount">
-                            <i class="iconListen"></i>
-                            1940.0万
-                        </span>
-                    </a>
-                    <div>
-                        <div id="rankListTextBox">
-                            <h3 class="abbreviation">巅峰榜·福特新蒙迪欧·流行指数</h3>
-                            <ol>
-                                <li><p>1<span>望</span>- 张碧晨/赵丽颖</p></li>
-                                <li><p>2<span>BLING BLING</span>- iKON (아이콘)</p></li>
-                                <li><p>3<span>最初的记忆</span>- 徐佳莹</p></li>
-                            </ol>
-                        </div>
-                        <i></i>
-                    </div>
-                </li><li class="ListOfCharts">
-                    <a href="javascript:;">
-                        <img src="../../static/img/toplist1.jpg" alt="">
-                        <span class="listenCount">
-                            <i class="iconListen"></i>
-                            1940.0万
-                        </span>
-                    </a>
-                    <div>
-                        <div id="rankListTextBox">
-                            <h3 class="abbreviation">巅峰榜·福特新蒙迪欧·流行指数</h3>
-                            <ol>
-                                <li><p>1<span>望</span>- 张碧晨/赵丽颖</p></li>
-                                <li><p>2<span>BLING BLING</span>- iKON (아이콘)</p></li>
-                                <li><p>3<span>最初的记忆</span>- 徐佳莹</p></li>
-                            </ol>
-                        </div>
-                        <i></i>
-                    </div>
-                </li>
-                <li class="ListOfCharts">
-                    <a href="javascript:;">
-                        <img src="../../static/img/toplist1.jpg" alt="">
-                        <span class="listenCount">
-                            <i class="iconListen"></i>
-                            1940.0万
-                        </span>
-                    </a>
-                    <div>
-                        <div id="rankListTextBox">
-                            <h3 class="abbreviation">巅峰榜·福特新蒙迪欧·流行指数</h3>
-                            <ol>
-                                <li><p>1<span>望</span>- 张碧晨/赵丽颖</p></li>
-                                <li><p>2<span>BLING BLING</span>- iKON (아이콘)</p></li>
-                                <li><p>3<span>最初的记忆</span>- 徐佳莹</p></li>
-                            </ol>
-                        </div>
-                        <i></i>
-                    </div>
-                </li>
-                <li class="ListOfCharts">
-                    <a href="javascript:;">
-                        <img src="../../static/img/toplist1.jpg" alt="">
-                        <span class="listenCount">
-                            <i class="iconListen"></i>
-                            1940.0万
-                        </span>
-                    </a>
-                    <div>
-                        <div id="rankListTextBox">
-                            <h3 class="abbreviation">巅峰榜·福特新蒙迪欧·流行指数</h3>
-                            <ol>
-                                <li><p>1<span>望</span>- 张碧晨/赵丽颖</p></li>
-                                <li><p>2<span>BLING BLING</span>- iKON (아이콘)</p></li>
-                                <li><p>3<span>最初的记忆</span>- 徐佳莹</p></li>
-                            </ol>
-                        </div>
-                        <i></i>
-                    </div>
-                </li>
-                
+                </router-link>
             </ul>
         </div>
     </div>
 </template>
 <script>
+import BetterScroll from "better-scroll"
     export default{
-
+        data(){
+            return {
+                //排行榜
+                topList:[]
+            }
+        },
+        mounted(){
+            let url="https://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg?format=jsonp&g_tk=5381&uin=0&format=jsonp&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&_=1492853417073"
+            this.$http.jsonp(url,{jsonp:'jsonpCallback'}).then(d=>{
+                this.topList=d.body.data.topList
+            })
+            this.scrollRefresh()
+        },
+        updated(){
+           this.scrollRefresh()
+        },
+        methods:{
+            scrollRefresh(){
+                let scroll=null;
+                this.$nextTick( ()=>{
+                    let wrapBox=document.getElementById('wrapBox');
+                    scroll = new BetterScroll(wrapBox,{
+                        startX:0,
+                        startY:0,
+                        click:true,//
+                        momentum:true,//惯性效果
+                        bounce:true,//回弹效果
+                        deceleration:0.003//加速度效果
+                    })
+                })
+            }
+        }
     }
 </script>
 <style lang="less" scoped>
     @rem:24rem;
     #rankingList{
         margin:10/@rem;
-        background:#fff;
         .ListOfCharts{
             width: 100%;
             height:100/@rem;
             margin-bottom:10/@rem;
             display: flex;
-
-            a{
+            background: #fff;
+            .ListPic{
                 width:100/@rem;
                 height:100%;
                 position: relative;
@@ -191,7 +100,7 @@
                     }
                 }
             }
-            div{
+            .ListName{
                 flex:1;
                 position: relative;
                 #rankListTextBox{

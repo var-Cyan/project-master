@@ -4,8 +4,7 @@ import Layout from '../components/layout.vue'
 import Recommend from '../components/recommend.vue'
 import RankingList from '../components/rankingList.vue'
 import Search from '../components/search.vue'
-
-
+import TopList from '../components/inList.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -17,24 +16,29 @@ export default new Router({
         {
           component:Recommend,
           path:'/recommend',
-          name:'Recommend'
+          name:'recommend'
         },
         {
           component:Recommend,
           path:'/',
-          name:'Recommend'
+          name:'home'
         },
         {
           component:RankingList,
           path:'/rankingList',
-          name:'rankingList'
+          name:'RankingList'
         },
         {
           component:Search,
           path:'/search',
-          name:'search'
+          name:'Search'
         },
       ]
+    },
+    {
+      component:TopList,
+      path:'/topList/:id?',
+      name:'topList'
     }
     
   ]
