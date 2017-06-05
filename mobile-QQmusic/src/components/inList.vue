@@ -8,8 +8,8 @@
                 </div>
             </header>
             <ol id="topInfoList">
-                <li v-for="(val,i) in topList.list" :key='i'>
-                    <div id="topInfoListNum">{{i+1}}</div>
+                <li v-for="(val,i) in topList.list" :key='i' @click='musicList({id:val.songid,singer:val.singer,name:val.name})'>
+                    <div id="topInfoListNum"><img :src="val.img"></div>
                     <div id="topInfoListInfo">
                         <h3 class="abbreviation">{{val.name}}</h3>
                         <p class="abbreviation">{{val.singer}}</p>
@@ -17,20 +17,16 @@
                 </li>
             </ol>
         </div>
-        <foot-bar></foot-bar>
     </div>
 </template>
 <script>
-    import FootBar from "./public/foot.vue"
     import BetterScroll from "better-scroll"
+    import {mapGetters, mapActions} from 'vuex'
     export default{
         data(){
             return {
                 topList:{img:'',list:[],listTitle:'',time:''}
             }
-        },
-        components:{
-            FootBar
         },
         mounted(){
             this.scrollRefresh()
@@ -41,6 +37,7 @@
             this.topList.img=d.body.topinfo.pic_album   
             this.topList.listTitle = d.body.topinfo.ListName
             this.topList.time = d.body.update_time  
+            console.log(this.topList)
             
             d.body.songlist.forEach(val => {
                 this.topList.list.push({
@@ -74,7 +71,8 @@
                         deceleration:0.003//加速度效果
                     })
                 })
-            }
+            },
+            ...mapActions(["musicList"])
         }
     }
 </script>
@@ -123,7 +121,7 @@
                     display: flex;
                     height:60/@rem;
                     #topInfoListNum{
-                        width: 46/@rem;
+                        width: 50/@rem;
                         color:#fff;
                         text-align: center;
                         line-height: 60/@rem;
@@ -134,21 +132,22 @@
                         flex:1;
                         height:100%;
                         box-sizing: border-box;
+                        padding:10/@rem 0 10/@rem 10/@rem;
                         border-bottom: 1px solid rgba(255,255,255,.4);
                         overflow: hidden;  
                         padding-right: 15/@rem;
-                        flex-direction:column;
-                        align-content: center;
                         h3{
                             font-size:18/@rem;
                             height:22/@rem;
                             line-height: 22/@rem;
+                            width:100%;
                         }
                         p{
                             font-size:14/@rem;
                             height:21/@rem;
                             line-height: 21/@rem;
                             color: rgba(255,255,255,.6);
+                            width:100%;
                         }
                     }
                 }

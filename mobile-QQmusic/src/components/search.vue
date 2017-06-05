@@ -2,11 +2,11 @@
     <div id="wrapBox">
         <div class="pageContant">
             <div id="searchBar">
-                <div id="inputWrap">
+                <div id="inputWrap" onsubmit="ruturn false">
                     <form id="searchFrom"  method="get">
-                        <input type="search" placeholder="搜索歌曲、歌单、专辑" class="searhInput">
-                        <span class="iconSearch">搜索</span>
-                        <span class="iconDel">删除</span>
+                        <input type="text" placeholder="搜索歌曲、歌单、专辑" class="searhInput" v-model="text" @keyup.13="hotSearch(text)">
+                        <span class="iconSearch" @click='hotSearch()'></span>
+                        <!--<span class="iconDel">删除</span>-->
                     </form>
                 </div>
                 <div class="searchCancel">取消</div>
@@ -19,7 +19,7 @@
                 </ul>
             </div>
             <ul id="searchResult" v-show="searchList.length">
-                <li v-for="val,i in searchList">
+                <li v-for="val,i in searchList" @click='musicList({id:val.songid,singer:val.singer,name:val.name})'>
                     <span>
                         <img :src="val.img" alt="">
                     </span>
@@ -36,6 +36,7 @@
 </template>
 <script>
     import BetterScroll from "better-scroll"
+    import {mapGetters, mapActions} from 'vuex'
     export default{
         data(){
             return {
@@ -59,8 +60,8 @@
         methods:{
             hotSearch(val){
                 this.searchList = [];
-                val?this.text = val:''
-                let url = `https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp?format=jsonp&n=20&w=${val||this.text}`
+                // val?this.text = val:''
+                let url = `https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp?format=jsonp&n=20&w=${val}`
                 this.$http.jsonp(url,{jsonp:"jsonpCallback"}).then(res => {
                     res.body.data.song.list.forEach(val => {
                         this.searchList.push({name:val.songname,
@@ -83,9 +84,8 @@
                         deceleration:0.003//加速度效果
                     })
                 })
-            }
-
-            
+            },
+            ...mapActions(["musicList"])
         }
     }
 </script>
@@ -119,7 +119,7 @@
                 .iconSearch{
                     position: absolute;
                     top: 9/@rem;
-                    left: 10/@rem;
+                    right: 10/@rem;
                     width: 18/@rem;
                     height: 18/@rem;
                     background-image: url(../../static/img/search.png);

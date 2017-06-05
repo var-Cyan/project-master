@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="referrer" content="never">
+    <title>zhihudaily</title>
+    <script>
+			var num = 1 / window.devicePixelRatio;
+			document.write('<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale='+num+',minimum-scale='+num+',maximum-scale='+num+'" />')
+			
+			var fontNum = document.documentElement.clientWidth / 15;
+			var html = document.getElementsByTagName('html')[0];
+			html.style.fontSize = fontNum + 'px';
+		</script>
+    <style>
+      body,html{
+        width:100%;
+        height:100%;
+        margin:0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>

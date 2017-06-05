@@ -37,6 +37,7 @@ import BetterScroll from "better-scroll"
             let url="https://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg?format=jsonp&g_tk=5381&uin=0&format=jsonp&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&_=1492853417073"
             this.$http.jsonp(url,{jsonp:'jsonpCallback'}).then(d=>{
                 this.topList=d.body.data.topList
+                // console.log(this.topList)
             })
             this.scrollRefresh()
         },
@@ -61,7 +62,7 @@ import BetterScroll from "better-scroll"
         }
     }
 </script>
-<style lang="less" scoped>
+<style lang="less">
     @rem:24rem;
     #rankingList{
         margin:10/@rem;

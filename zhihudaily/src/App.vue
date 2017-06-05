@@ -1,18 +1,12 @@
 <template>
   <div id="app">
-
     <router-view></router-view>
-    <foot-bar></foot-bar> 
   </div>
 </template>
 
 <script>
-import FootBar from "./components/public/foot.vue"
 export default {
-  name: 'app',
-  components:{
-      FootBar
-  }
+  name: 'app'
 }
 </script>
 

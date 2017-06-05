@@ -22,7 +22,7 @@
                     </li>
                 </ul>
             </div>
-            <div id="hotSong" class="common">
+            <div id="hotSong" class="common" v-show="hotSong.length">
                 <h2>热门歌曲</h2>
                 <ul>
                     <li v-for="(item,index) in hotSong" :key="item.id">

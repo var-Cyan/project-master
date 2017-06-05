@@ -3,7 +3,7 @@
     <div id="layout">
         <head-bar></head-bar>
         <router-view></router-view>
-        <foot-bar></foot-bar>
+        <!--<foot-bar></foot-bar>-->
     </div>
 </template>
 <script>
