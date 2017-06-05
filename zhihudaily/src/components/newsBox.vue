@@ -2,7 +2,7 @@
 <div class="newsBox">   
      <div class="news" >
         <div v-for="item,index in data" :key="index">
-            <h2>今日新闻</h2>
+            <h2>今日要闻</h2>
             <router-link tag="div" v-for="ite,ind in item.stories" :to="{name:'detail',params:{id:ite.id}}" :key="ind"> 
                 <p>{{ite.title}}</p>
                 <img :src="ite.images" alt="">

@@ -2,7 +2,7 @@
     <div>
         <head-bar></head-bar>
         <div id="wrapBox">
-            <div>
+            <div id="box">
                 <carousel :topData='topData'></carousel>
                 <newsBox :data='data'></newsBox>
             </div>
@@ -66,6 +66,8 @@ export default {
         left:0;
         height:100%;
         // box-sizing:border-box;
-        padding-top:112/@rem;
+        #box{
+            padding-top:112/@rem;
+        }
     }
 </style>
